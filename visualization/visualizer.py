@@ -5,6 +5,7 @@ Email: gavinsweden@gmail.com
 '''
 import time
 import sys
+sys.path.remove('/opt/ros/kinetic/lib/python2.7/dist-packages')
 from copy import deepcopy
 import cv2
 import numpy as np
@@ -18,20 +19,20 @@ class Simulator:
     def __init__(self):
         # Set up a white 1080p canvas
         self.canvas = np.ones((1080,1920,3), np.uint8)*255 
-        # Draw the rectangluar obstacles on canvas
+        # Draw the rectangluar obstacles on canvas 在画布上绘制矩形障碍物
         self.draw_rect(np.array([np.array(v) for v in RECT_OBSTACLES.values()]))
 
-        # Transform the vertices to be border-filled rectangles
+        # Transform the vertices to be border-filled rectangles 将顶点转换为边框填充的矩形
         static_obstacles = self.vertices_to_obsts(RECT_OBSTACLES)
 
-        # Call cbs-mapf to plan
+        # Call cbs-mapf to plan 调用cbs_mapf计算
         self.planner = Planner(GRID_SIZE, ROBOT_RADIUS, static_obstacles)
         before = time.time()
         self.path = self.planner.plan(START, GOAL, debug=False)
         after = time.time()
         print('Time elapsed:', "{:.4f}".format(after-before), 'second(s)')
 
-        # Assign each agent a colour
+        # Assign each agent a colour 为每个代理分配一种颜色
         self.colours = self.assign_colour(len(self.path))
 
         # Put the path into dictionaries for easier access
@@ -43,7 +44,9 @@ class Simulator:
 
     '''
     Transform opposite vertices of rectangular obstacles into obstacles
+    将矩形障碍物的相对顶点转换为障碍物 
     '''
+    #TODO(fy) record
     @staticmethod
     def vertices_to_obsts(obsts):
         def drawRect(v0, v1):
@@ -68,6 +71,7 @@ class Simulator:
 
     '''
     Randomly generate colours
+    随机生成颜色
     '''
     @staticmethod
     def assign_colour(num):
@@ -126,6 +130,7 @@ def load_scenario(fd):
 
 '''
 Use this function to show your START/GOAL configurations
+使用此功能显示您的 START/GOAL 配置
 '''
 def show_pos(pos):
     cv2.namedWindow('frame', cv2.WINDOW_NORMAL)

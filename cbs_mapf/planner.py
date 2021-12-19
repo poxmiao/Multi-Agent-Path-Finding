@@ -3,7 +3,7 @@
 Author: Haoran Peng
 Email: gavinsweden@gmail.com
 
-An implementation of multi-agent path finding using conflict-based search
+An implementation of multi-agent path finding using conflict-based search 基于冲突搜索的多智能体寻路实现
 [Sharon et al., 2015]
 '''
 from typing import List, Tuple, Dict, Callable, Set
@@ -33,6 +33,7 @@ class Planner:
     '''
     You can use your own assignment function, the default algorithm greedily assigns
     the closest goal to each start.
+    您可以使用自己的分配函数，默认算法会贪婪地为每个开始分配最近的目标。
     '''
     def plan(self, starts: List[Tuple[int, int]],
                    goals: List[Tuple[int, int]],
@@ -94,7 +95,9 @@ class Planner:
 
     '''
     Abstracted away the cbs search for multiprocessing.
+    将 cbs 搜索抽象为多处理。
     The parameters open and results MUST BE of type ListProxy to ensure synchronization.
+    参数 open 和 results 必须是 ListProxy 类型以确保同步。
     '''
     def search_node(self, best: CTNode, results):
         agent_i, agent_j, time_of_conflict = self.validate_paths(self.agents, best)
@@ -134,6 +137,7 @@ class Planner:
 
     '''
     Pair of agent, point of conflict
+    一对智能体的冲突点
     '''
     def validate_paths(self, agents, node: CTNode):
         # Check collision pair-wise
@@ -185,6 +189,7 @@ class Planner:
 
     '''
     Calculate the paths for all agents with space-time constraints
+    计算所有具有时空约束的止智能体的路径
     '''
     def calculate_path(self, agent: Agent, 
                        constraints: Constraints, 
@@ -198,6 +203,7 @@ class Planner:
 
     '''
     Reformat the solution to a numpy array
+    将解决方案重新格式化为 numpy 数组
     '''
     @staticmethod
     def reformat(agents: List[Agent], solution: Dict[Agent, np.ndarray]):
@@ -209,6 +215,7 @@ class Planner:
 
     '''
     Pad paths to equal length, inefficient but well..
+    将路径填充到相等的长度，效率低下但效果很好。
     '''
     @staticmethod
     def pad(solution: Dict[Agent, np.ndarray]):
